@@ -11,7 +11,8 @@
 
 (setq scheme-program-name "guile")
 
-(if (not (getenv "BIG"))
+(if (and (display-graphic-p)
+         (not (getenv "BIG")))
     (progn
       (scroll-bar-mode 0)
       (tool-bar-mode 0)))
@@ -23,6 +24,10 @@
 (package-initialize)
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 (require 'use-package)
 
 
