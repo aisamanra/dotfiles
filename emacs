@@ -9,6 +9,8 @@
 (setq default-tab-width 4)
 (setq indent-tabs-mode nil)
 
+(setq scheme-program-name "guile")
+
 (if (not (getenv "BIG"))
     (progn
       (scroll-bar-mode 0)
@@ -34,6 +36,9 @@
   :ensure t
   :init (setq twittering-use-master-password t))
 
+;; for redo syntax highlighting
+(add-to-list 'auto-mode-alist '("\\.do\\'" . sh-mode))
+
 
 
 ;; tuareg-mode
@@ -48,14 +53,17 @@
       (autoload 'tuareg-imenu-set-imenu "tuareg-imenu"
         "Configuration of imenu for tuareg" t)
       (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
-      (add-to-list 'auto-mode-alist '("\\.ml[ily]?\\'" . tuareg-mode))))
+      (add-to-list 'auto-mode-alist '("\\.ml[ilyp]?\\'" . tuareg-mode))))
 
 
 
-;; personal dockerfile mode
+;; dockerfile mode
 
-(load "/home/gdritter/.emacs-modes/dockerfile-mode.el")
-(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-mode))
+(use-package dockerfile-mode
+  :ensure t
+  :init
+    (progn
+      (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-mode))))
 
 
 
@@ -67,15 +75,15 @@
 
 
 
-;; toml-mode
+;; various markup/text file modes
 
 (use-package toml-mode
   :ensure t
   :init (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode)))
 
-
-
-;; markdown-mode
+(use-package yaml-mode
+  :ensure t
+  :init (add-to-list 'auto-mode-alist '("\.ya?ml\'" . yaml-mode)))
 
 (use-package markdown-mode
   :ensure t
@@ -102,13 +110,10 @@
     :ensure t
     :init
       (progn
+        (use-package zenburn-theme :ensure t)
+        (use-package solarized-theme :ensure t)
+        (use-package color-theme-sanityinc-tomorrow :ensure t)
         (color-theme-initialize)
-        (add-to-list 'custom-theme-load-path
-          "/home/gdritter/.emacs-modes/color-theme-solarized")
-        (add-to-list 'custom-theme-load-path
-          "/home/gdritter/.emacs-modes/tomorrow-theme")
-        (add-to-list 'custom-theme-load-path
-          "/home/gdritter/.emacs-modes/zenburn")
         (let ((theme (getenv "THEME")))
           (cond
            ((string= theme "solarized-dark")
@@ -147,7 +152,10 @@
   :ensure t
   :init
     (progn
-      (setq haskell-mode-hook 'turn-on-haskell-simple-indent)))
+      (setq haskell-mode-hook 'turn-on-haskell-simple-indent)
+      (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
+      (setq haskell-mode-hook '(turn-on-haskell-indentation))))
+
 
 
 ;; spacing fixes!

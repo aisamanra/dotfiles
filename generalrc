@@ -1,13 +1,5 @@
 # .bashrc
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
-
-#cat <TODO
-#echo
-
 # User specific aliases and functions
 alias cl=clear
 alias la='ls -a'
@@ -27,7 +19,8 @@ alias textmacs='NARROW=true emacs'
 alias em='EVIL=true BARE=true emacs'
 alias objdump='objdump -M intel'
 alias pr-paper='lpr -P hp4200n -o number-up=2 -o sides=two-sided-long-edge'
-alias big-urxvt='urxvt -fn "xft:Inconsolata:pixelsize=24"'
+alias bigterm='urxvt -fn "xft:Inconsolata:pixelsize=24"'
+alias hex2raw="tr -d '\\\x' | xxd -r -p"
 
 export EDITOR="emacs -nw"
 export BASHFILESIZE=50000
