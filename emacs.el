@@ -57,38 +57,31 @@
       (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
       (autoload 'tuareg-imenu-set-imenu "tuareg-imenu"
         "Configuration of imenu for tuareg" t)
-      (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
-      (add-to-list 'auto-mode-alist '("\\.ml[ilyp]?\\'" . tuareg-mode))))
+      (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)))
 
 
 
 ;; dockerfile mode
 
 (use-package dockerfile-mode
-  :ensure t
-  :init
-    (progn
-      (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-mode))))
+  :ensure t)
 
 
 
 ;; rust-mode
 
 (use-package rust-mode
-  :ensure t
-  :init (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
+  :ensure t)
 
 
 
 ;; various markup/text file modes
 
 (use-package toml-mode
-  :ensure t
-  :init (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode)))
+  :ensure t)
 
 (use-package yaml-mode
-  :ensure t
-  :init (add-to-list 'auto-mode-alist '("\.ya?ml\'" . yaml-mode)))
+  :ensure t)
 
 (use-package markdown-mode
   :ensure t
@@ -107,8 +100,7 @@
 ;; cryptol-mode
 
 (use-package cryptol-mode
-  :ensure t
-  :init (add-to-list 'auto-mode-alist '("\\.cry\\'" . cryptol-mode)))
+  :ensure t)
 
 
 
