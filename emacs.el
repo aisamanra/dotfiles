@@ -98,6 +98,10 @@
       (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
       (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))))
 
+(use-package pandoc-mode
+  :ensure t
+  :config (add-hook 'markdown-mode-hook 'pandoc-mode))
+
 
 
 ;; cryptol-mode
@@ -105,6 +109,16 @@
 (use-package cryptol-mode
   :ensure t
   :init (add-to-list 'auto-mode-alist '("\\.cry\\'" . cryptol-mode)))
+
+
+
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :defines (helm-apropos-fuzzy-match
+            helm-completion-mode-string
+            helm-ff-file-name-history-use-recentf)
+  :commands (helm-mode))
 
 
 
