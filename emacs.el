@@ -19,23 +19,44 @@
 
 
 
+;; Any machine-specific setup can go in an external
+;; file. If it exists, we should load it:
+
+(if (file-exists-p "~/.local.el")
+    (load "~/.local.el"))
+
+
+
 ;; *elpa setup
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+  '("gelpa" . "http://gelpa.gdritter.com/") t)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
 
+;; (use-package gidl-mode :ensure t)
+
+
+
+;; unicode stuff
+(use-package unicode-fonts
+  :ensure t
+  :init (unicode-fonts-setup))
+
 
 
 ;; misc. package setup
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :init (progn
+          (setq magit-last-seen-setup-instructions "1.4.0")))
 
 (use-package twittering-mode
   :ensure t
@@ -169,6 +190,24 @@
 
 
 
+;; idris-mode?
+
+(use-package idris-mode
+  :ensure t)
+;(use-package helm-idris
+;  :ensure t)
+
+
+
+;; some custom modes
+
+(use-package gidl-mode
+  :ensure t)
+(use-package ndbl-mode
+  :ensure t)
+
+
+
 ;; spacing fixes!
 
 (defun fix-spacing ()
@@ -180,13 +219,15 @@
     (princ "Fixing all spacing...")))
 
 (setq gdritter/spacing-modes
-      '(c-mode
+      '(;c-mode
         c++-mode
+        sh-mode
         asm-mode
         haskell-mode
         haskell-cabal-mode
         emacs-lisp-mode
         lisp-mode
+        scheme-mode
         d-mode
         erlang-mode
         tuareg-mode))
@@ -195,7 +236,15 @@
   (when (member major-mode gdritter/spacing-modes)
     (fix-spacing)))
 
+(defun gdritter/change-whitespace-mode-hook ()
+  (if (member major-mode '(c-mode c++-mode go-mode))
+      (progn (setq whitespace-style '(face))
+             (global-whitespace-mode t))))
+
 (add-hook 'before-save-hook 'fix-spacing-hook)
+
+(add-hook 'after-change-major-mode-hook
+          'gdritter/change-whitespace-mode-hook)
 
 
 
@@ -229,3 +278,4 @@
       (evil-mode)))
 (if (getenv "NARROW")
     (bzg-big-fringe-mode 1))
+(put 'narrow-to-region 'disabled nil)
