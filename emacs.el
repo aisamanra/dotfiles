@@ -40,7 +40,12 @@
   (package-install 'use-package))
 (require 'use-package)
 
-;; (use-package gidl-mode :ensure t)
+
+
+;; org-mode
+
+(use-package org
+  :ensure t)
 
 
 
@@ -190,6 +195,13 @@
 
 
 
+;; evil-mode! Just in case.
+
+(use-package evil
+  :ensure t)
+
+
+
 ;; idris-mode?
 
 (use-package idris-mode
@@ -274,7 +286,6 @@
     (twit))
 (if (getenv "EVIL")
     (progn
-      (require 'evil)
       (evil-mode)))
 (if (getenv "NARROW")
     (bzg-big-fringe-mode 1))
