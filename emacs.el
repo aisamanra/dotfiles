@@ -70,6 +70,11 @@
 ;; for redo syntax highlighting
 (add-to-list 'auto-mode-alist '("\\.do\\'" . sh-mode))
 
+
+(use-package vagrant
+  :ensure t)
+(add-to-list 'auto-mode-alist '("\\Vagrantfile\\'" . ruby-mode))
+
 
 
 ;; tuareg-mode
@@ -120,6 +125,9 @@
 (use-package pandoc-mode
   :ensure t
   :config (add-hook 'markdown-mode-hook 'pandoc-mode))
+
+(use-package fountain-mode
+  :ensure t)
 
 
 
