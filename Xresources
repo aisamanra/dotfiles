@@ -1,0 +1,9 @@
+URxvt.urlLauncher: firefox
+Urxvt.matcher.button: 1
+URxvt.perl-exp.common: matcher 
+URxvt.transparent: true
+URxvt.shading: 10
+Urxvt.scrollBar: false
+URxvt.font: xft:Inconsolata:style=Medium:size=10,xft:Symbola:style=Regular:size=10
+URxvt*.foreground: white
+URxvt*.background: black
