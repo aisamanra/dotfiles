@@ -65,10 +65,10 @@ main = do
   fehBgExists <- doesFileExist "/home/gdritter/.xm-init"
   when fehBgExists $
     void (createProcess (proc "sh" ["/home/gdritter/.xm-init"]))
-  xmproc <- spawnPipe "/usr/bin/xmobar /home/gdritter/.xmobarrc"
+  xmproc <- spawnPipe "xmobar /home/gdritter/.xmobarrc"
   xmonad $ defaultConfig
     { modMask            = mod4Mask
-    , terminal           = "urxvt"
+    , terminal           = "urxvt -e tmux"
     , keys               = myKeys <+> keys defaultConfig
     , layoutHook         = myLayout
     , normalBorderColor  = normalColor grayScheme
