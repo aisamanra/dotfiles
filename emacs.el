@@ -52,6 +52,7 @@
 ;; unicode stuff
 (use-package unicode-fonts
   :ensure t
+  :defer t
   :init (unicode-fonts-setup))
 
 
@@ -60,6 +61,7 @@
 
 (use-package magit
   :ensure t
+  :defer t
   :init (progn
           (setq magit-last-seen-setup-instructions "1.4.0")))
 

@@ -7,3 +7,9 @@ Urxvt.scrollBar: false
 URxvt.font: xft:Inconsolata:style=Medium:size=10,xft:Symbola:style=Regular:size=10
 URxvt*.foreground: white
 URxvt*.background: black
+
+Emacs.font: Inconsolata
+Emacs.fontBackend: xft
+Emacs.menuBar: off
+Emacs.toolBar: -1
+Emacs.verticalScrollBars: off
