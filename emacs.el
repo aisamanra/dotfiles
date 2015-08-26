@@ -235,6 +235,8 @@
   :ensure t)
 (use-package ndbl-mode
   :ensure t)
+(use-package pico-ml-mode
+  :ensure t)
 
 
 
@@ -291,7 +293,7 @@
     (progn
       (set-fringe-mode
        (/ (- (frame-pixel-width)
-             (* 100 (frame-char-width)))
+             (* 300 (frame-char-width)))
           2))
       (mapcar (lambda (fb) (set-fringe-bitmap-face fb 'org-hide))
               fringe-bitmaps))))
