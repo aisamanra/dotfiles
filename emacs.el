@@ -67,15 +67,21 @@
 
 (use-package twittering-mode
   :ensure t
+  :defer t
   :init (setq twittering-use-master-password t))
 
 ;; for redo syntax highlighting
 (add-to-list 'auto-mode-alist '("\\.do\\'" . sh-mode))
+;; for void linux template file highlighting
+(add-to-list 'auto-mode-alist '("\\template\\'" . sh-mode))
 
 
 (use-package vagrant
   :ensure t)
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\\'" . ruby-mode))
+
+(use-package lua-mode
+  :ensure t)
 
 
 
@@ -83,6 +89,7 @@
 
 (use-package tuareg
   :ensure t
+  :defer t
   :init
     (progn
       (autoload 'tuareg-mode "tuareg-mode"
@@ -136,6 +143,7 @@
 ;; cryptol-mode
 
 (use-package cryptol-mode
+  :defer t
   :ensure t)
 
 
