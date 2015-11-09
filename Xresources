@@ -4,7 +4,7 @@ URxvt.perl-exp.common: matcher
 URxvt.transparent: true
 URxvt.shading: 10
 Urxvt.scrollBar: false
-URxvt.font: xft:Inconsolata:style=Medium:size=10,xft:Symbola:style=Regular:size=10
+URxvt.font: xft:Inconsolata:style=Medium:size=14,xft:Symbola:style=Regular:size=14
 URxvt*.foreground: white
 URxvt*.background: black
 

@@ -68,7 +68,9 @@
 (use-package twittering-mode
   :ensure t
   :defer t
-  :init (setq twittering-use-master-password t))
+  :init (progn
+          (setq twittering-use-master-password t)
+          (setq twittering-cert-file "/etc/ssl/certs/ca-certificates.crt")))
 
 ;; for redo syntax highlighting
 (add-to-list 'auto-mode-alist '("\\.do\\'" . sh-mode))
@@ -184,7 +186,7 @@
            :foundry "unknown"
            :slant normal
            :weight normal
-           :height 98
+           :height 140
            :width normal))))
    '(tex-verbatim
      ((t (:family "consolas"))))))
@@ -237,6 +239,10 @@
   :ensure t)
 (use-package pico-ml-mode
   :ensure t)
+(use-package telml-mode
+  :ensure t)
+(use-package yue-mode
+  :ensure t)
 
 
 
@@ -253,7 +259,6 @@
 (setq gdritter/spacing-modes
       '(;c-mode
         c++-mode
-        sh-mode
         asm-mode
         haskell-mode
         haskell-cabal-mode

@@ -66,6 +66,7 @@ main = do
   when fehBgExists $
     void (createProcess (proc "sh" ["/home/gdritter/.xm-init"]))
   xmproc <- spawnPipe "xmobar /home/gdritter/.xmobarrc"
+  void (spawnPipe "runsvdir /home/gdritter/.run/service")
   xmonad $ defaultConfig
     { modMask            = mod4Mask
     , terminal           = "urxvt -e tmux"
