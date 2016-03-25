@@ -1,4 +1,6 @@
-URxvt.urlLauncher: firefox
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.keysym.M-Delete: perl:matcher:list
+URxvt.perl-ext-common: default,matcher
 Urxvt.matcher.button: 1
 URxvt.perl-exp.common: matcher
 URxvt.transparent: true
@@ -7,6 +9,7 @@ Urxvt.scrollBar: false
 URxvt.font: xft:Inconsolata:style=Medium:size=14,xft:Symbola:style=Regular:size=14
 URxvt*.foreground: white
 URxvt*.background: black
+URxvt.print-pipe: "cat >/dev/null"
 
 Emacs.font: Inconsolata
 Emacs.fontBackend: xft
