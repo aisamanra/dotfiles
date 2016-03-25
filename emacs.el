@@ -85,21 +85,20 @@
 (use-package lua-mode
   :ensure t)
 
+(use-package scala-mode
+  :ensure t)
+
+(use-package ensime
+  :ensure t
+  :init (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
+
 
 
 ;; tuareg-mode
 
 (use-package tuareg
   :ensure t
-  :defer t
-  :init
-    (progn
-      (autoload 'tuareg-mode "tuareg-mode"
-        "Major mode for editing Caml or whatever." t)
-      (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
-      (autoload 'tuareg-imenu-set-imenu "tuareg-imenu"
-        "Configuration of imenu for tuareg" t)
-      (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)))
+  :defer t)
 
 
 
@@ -198,7 +197,7 @@
   :ensure t
   :init
     (progn
-      (setq whitespace-style '(face empty tabs trailing))
+      (setq whitespace-style '(face empty trailing))
       (global-whitespace-mode t)))
 
 
@@ -229,6 +228,22 @@
 ;(use-package helm-idris
 ;  :ensure t)
 
+
+
+
+;; python stuff
+
+(use-package elpy
+  :ensure t
+  :init
+    (elpy-enable))
+
+(use-package py-autopep8
+  :ensure t
+  :init
+    (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+
+
 
 
 ;; some custom modes
@@ -258,6 +273,7 @@
 
 (setq gdritter/spacing-modes
       '(;c-mode
+        scala-mode
         c++-mode
         asm-mode
         haskell-mode
