@@ -11,6 +11,7 @@ import           System.Process (createProcess, proc)
 import           XMonad
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks (manageDocks, avoidStruts)
+import           XMonad.Layout.NoBorders (noBorders, smartBorders)
 import           XMonad.Layout.Tabbed
 import           XMonad.Util.Run(spawnPipe)
 
@@ -27,7 +28,7 @@ myKeys (XConfig {XMonad.modMask = modMask}) = M.fromList
   [ ((modMask, xK_p), spawn "dmenu_run")
   ]
 
-myLayout = avoidStruts (myTabbed ||| tiled ||| Mirror tiled) ||| Full
+myLayout = avoidStruts (myTabbed ||| tiled ||| Mirror tiled) ||| noBorders (smartBorders Full)
   where tiled    = Tall nmaster delta ratio
         nmaster  = 1
         ratio    = 1/2
@@ -66,6 +67,7 @@ main = do
   when fehBgExists $
     void (createProcess (proc "sh" ["/home/gdritter/.xm-init"]))
   xmproc <- spawnPipe "xmobar /home/gdritter/.xmobarrc"
+  void (spawnPipe "runsvdir /home/gdritter/.run/service")
   xmonad $ defaultConfig
     { modMask            = mod4Mask
     , terminal           = "urxvt -e tmux"
