@@ -49,6 +49,27 @@
 
 
 
+;; web-mode
+(use-package web-mode
+  :ensure t
+  :init (progn
+          (mapcar (lambda (extension)
+                    (add-to-list 'auto-mode-alist
+                                 `(,extension . web-mode)))
+                  '("\\.html?\\'"
+                    "\\.tpl\\.php\\'"
+                    "\\.[agj]sp\\'"
+                    "\\.as[cp]x\\'"
+                    "\\.erb\\'"
+                    "\\.mustache\\'"
+                    "\\.djhtml\\'"))
+          (setq web-mode-markup-indent-offset 2)
+          (setq web-mode-css-indent-offset 2)
+          (setq web-mode-code-indent-offset 2)
+          (setq web-mode-attr-indent-offset 2)))
+
+
+
 ;; unicode stuff
 (use-package unicode-fonts
   :ensure t
