@@ -82,6 +82,9 @@
 
 ;; misc. package setup
 
+(use-package undo-tree
+  :ensure t)
+
 (use-package magit
   :ensure t
   :defer t
@@ -235,6 +238,14 @@
       (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
       (setq haskell-mode-hook '(turn-on-haskell-indentation))))
 
+(use-package ghc
+  :ensure t
+  :init
+  (progn
+    (autoload 'ghc-init "ghc" nil t)
+    (autoload 'ghc-debug "ghc" nil t)
+    (add-hook 'haskell-mode-hook (lambda () (ghc-init)))))
+
 
 
 ;; evil-mode! Just in case.
@@ -271,6 +282,8 @@
 
 ;; some custom modes
 
+(use-package adnot-mode
+  :ensure t)
 (use-package gidl-mode
   :ensure t)
 (use-package ndbl-mode
