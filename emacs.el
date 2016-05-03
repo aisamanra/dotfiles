@@ -38,6 +38,8 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+(if (getenv "FORCE_REFRESH")
+    (package-refresh-contents))
 (require 'use-package)
 
 
@@ -46,6 +48,27 @@
 
 (use-package org
   :ensure t)
+
+
+
+;; web-mode
+(use-package web-mode
+  :ensure t
+  :init (progn
+          (mapcar (lambda (extension)
+                    (add-to-list 'auto-mode-alist
+                                 `(,extension . web-mode)))
+                  '("\\.html?\\'"
+                    "\\.tpl\\.php\\'"
+                    "\\.[agj]sp\\'"
+                    "\\.as[cp]x\\'"
+                    "\\.erb\\'"
+                    "\\.mustache\\'"
+                    "\\.djhtml\\'"))
+          (setq web-mode-markup-indent-offset 2)
+          (setq web-mode-css-indent-offset 2)
+          (setq web-mode-code-indent-offset 2)
+          (setq web-mode-attr-indent-offset 2)))
 
 
 
@@ -58,6 +81,9 @@
 
 
 ;; misc. package setup
+
+(use-package undo-tree
+  :ensure t)
 
 (use-package magit
   :ensure t
@@ -212,6 +238,14 @@
       (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
       (setq haskell-mode-hook '(turn-on-haskell-indentation))))
 
+(use-package ghc
+  :ensure t
+  :init
+  (progn
+    (autoload 'ghc-init "ghc" nil t)
+    (autoload 'ghc-debug "ghc" nil t)
+    (add-hook 'haskell-mode-hook (lambda () (ghc-init)))))
+
 
 
 ;; evil-mode! Just in case.
@@ -249,6 +283,8 @@
 
 ;; some custom modes
 
+(use-package adnot-mode
+  :ensure t)
 (use-package gidl-mode
   :ensure t)
 (use-package ndbl-mode
