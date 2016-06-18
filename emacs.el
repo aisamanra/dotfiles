@@ -126,6 +126,13 @@
   :ensure t
   :defer t)
 
+(use-package dash :ensure t)
+(use-package dash-functional :ensure t)
+
+(use-package fsharp-mode
+  :ensure t
+  :defer t)
+
 
 
 ;; dockerfile mode
