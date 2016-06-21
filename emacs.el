@@ -126,6 +126,13 @@
   :ensure t
   :defer t)
 
+(use-package dash :ensure t)
+(use-package dash-functional :ensure t)
+
+(use-package fsharp-mode
+  :ensure t
+  :defer t)
+
 
 
 ;; dockerfile mode
@@ -155,8 +162,10 @@
   :init
     (progn
       (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+      (add-to-list 'auto-mode-alist '("\\.page\\'" . markdown-mode))
       (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-      (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))))
+      (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+      (add-hook 'markdown-mode-hook 'visual-line-mode)))
 
 (use-package pandoc-mode
   :ensure t
@@ -238,13 +247,13 @@
       (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
       (setq haskell-mode-hook '(turn-on-haskell-indentation))))
 
-(use-package ghc
-  :ensure t
-  :init
-  (progn
-    (autoload 'ghc-init "ghc" nil t)
-    (autoload 'ghc-debug "ghc" nil t)
-    (add-hook 'haskell-mode-hook (lambda () (ghc-init)))))
+;; (use-package ghc
+;;   :ensure t
+;;   :init
+;;   (progn
+;;     (autoload 'ghc-init "ghc" nil t)
+;;     (autoload 'ghc-debug "ghc" nil t)
+;;     (add-hook 'haskell-mode-hook (lambda () (ghc-init)))))
 
 
 
@@ -285,11 +294,15 @@
 
 (use-package adnot-mode
   :ensure t)
+(use-package electric-boogaloo-mode
+  :ensure t)
 (use-package gidl-mode
   :ensure t)
 (use-package ndbl-mode
   :ensure t)
 (use-package pico-ml-mode
+  :ensure t)
+(use-package suppl-mode
   :ensure t)
 (use-package telml-mode
   :ensure t)
