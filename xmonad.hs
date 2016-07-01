@@ -13,6 +13,7 @@ import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks (manageDocks, avoidStruts)
 import           XMonad.Layout.NoBorders (noBorders, smartBorders)
 import           XMonad.Layout.Tabbed
+import           XMonad.ManageHook((-->), (=?))
 import           XMonad.Util.Run(spawnPipe)
 
 data ColorScheme = ColorScheme
@@ -33,7 +34,7 @@ myLayout = avoidStruts (myTabbed ||| tiled ||| Mirror tiled) ||| noBorders (smar
         nmaster  = 1
         ratio    = 1/2
         delta    = 3/100
-        myTabbed = tabbed shrinkText defaultTheme
+        myTabbed = tabbed shrinkText def
                      { activeColor         = focusedColor grayScheme
                      , inactiveColor       = normalColor grayScheme
                      , activeBorderColor   = black
@@ -68,11 +69,14 @@ main = do
     void (createProcess (proc "sh" ["/home/gdritter/.xm-init"]))
   xmproc <- spawnPipe "xmobar /home/gdritter/.xmobarrc"
   void (spawnPipe "runsvdir /home/gdritter/.run/service")
-  xmonad $ defaultConfig
+  xmonad $ def
     { modMask            = mod4Mask
     , terminal           = "urxvt -e tmux"
-    , keys               = myKeys <+> keys defaultConfig
+    , keys               = myKeys <+> keys def
     , layoutHook         = myLayout
+    , manageHook         = composeAll [ className =? "Vkdraw" --> doFloat
+                                      , manageHook def
+                                      ]
     , normalBorderColor  = normalColor grayScheme
     , focusedBorderColor = focusedColor grayScheme
     , logHook            = dynamicLogWithPP $ xmobarPP
