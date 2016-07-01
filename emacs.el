@@ -232,7 +232,7 @@
   :ensure t
   :init
     (progn
-      (setq whitespace-style '(face empty trailing))
+      (setq whitespace-style '(face empty tabs trailing))
       (global-whitespace-mode t)))
 
 
@@ -271,6 +271,8 @@
 ;(use-package helm-idris
 ;  :ensure t)
 
+<<<<<<< HEAD
+=======
 
 
 
@@ -285,7 +287,6 @@
   :ensure t
   :init
     (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
-
 
 
 
@@ -322,6 +323,7 @@
 
 (setq gdritter/spacing-modes
       '(;c-mode
+        sh-mode
         scala-mode
         c++-mode
         asm-mode
