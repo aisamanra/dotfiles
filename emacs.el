@@ -10,6 +10,7 @@
 (setq indent-tabs-mode nil)
 
 (setq scheme-program-name "guile")
+(setq vc-follow-symlinks t)
 
 (if (and (display-graphic-p)
          (not (getenv "BIG")))
@@ -162,7 +163,6 @@
   :init
     (progn
       (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-      (add-to-list 'auto-mode-alist '("\\.page\\'" . markdown-mode))
       (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
       (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
       (add-hook 'markdown-mode-hook 'visual-line-mode)))
@@ -173,6 +173,52 @@
 
 (use-package fountain-mode
   :ensure t)
+
+;; Pandoc can begin with YAML metadata, and sometimes a pandoc file
+;; will indicate which format it should be using. I'm not going to
+;; write a full YAML parser in elisp! But usually, parsing simple
+;; key-value pairs should be sufficient.
+(defun gdritter/pandoc-parse-basic-meta-block ()
+  (let ((here (point)))
+    (goto-char 0)
+    (let ((rs
+           (if (re-search-forward "^---\n" nil t)
+               (let ((block-start (point)))
+                 (if (re-search-forward "^\\(---\\|...\\)\n" nil t)
+                     (progn (goto-char block-start)
+                            (gdritter/pandoc-parse-kv-section))
+                   (progn (message "no metadata block found")
+                          nil))))))
+      (goto-char here)
+      rs)))
+
+;; This tries to parse all the simple key: value forms it can
+(defun gdritter/pandoc-parse-kv-section ()
+  (if (looking-at "^\\(---\\|...\\)\n")
+      '()
+    (let ((rs (re-search-forward "^\\([A-Za-z0-9_]+\\):[ ]*\\(.*\\)\n" nil t)))
+      (if rs
+          (cons (cons (match-string 1)
+                      (match-string 2))
+                (gdritter/pandoc-parse-kv-section))
+        (forward-line 1)))))
+
+;; This will try to dispatch which mode to open based on the
+;; metadata block. If the metadata block doesn't contain a format
+;; key, then it'll default to Markdown with Pandoc extensions.
+(defun gdritter/pandoc-choose-mode ()
+  (interactive)
+  (let* ((meta (gdritter/pandoc-parse-basic-meta-block))
+         (format (assoc-string "format" meta))
+         (fmt (if format (cdr format) nil)))
+    (cond ((equal fmt "org") (org-mode))
+          ((equal fmt "latex") (latex-mode))
+          ((equal fmt "rst") (rst-mode))
+          ((equal fmt "html") (web-mode))
+          (t (markdown-mode)))))
+
+(add-to-list 'auto-mode-alist '("\\.page\\'" . gdritter/pandoc-choose-mode))
+(add-to-list 'auto-mode-alist '("\\.pandoc\\'" . gdritter/pandoc-choose-mode))
 
 
 
@@ -212,7 +258,7 @@
            ((string= theme "solarized-light")
             (load-theme 'solarized-light t))
            ((string= theme "tomorrow")
-            (load-theme 'tomorrow-night t))
+            (load-theme 'sanityinc-tomorrow-night t))
            (t (load-theme 'zenburn t))))))
   (custom-set-faces
    '(default
@@ -271,9 +317,6 @@
 ;(use-package helm-idris
 ;  :ensure t)
 
-<<<<<<< HEAD
-=======
-
 
 
 ;; python stuff
@@ -305,7 +348,9 @@
 (use-package suppl-mode
   :ensure t)
 (use-package telml-mode
-  :ensure t)
+  :ensure t
+  :init
+  (add-hook 'markdown-mode-hook 'visual-line-mode))
 (use-package yue-mode
   :ensure t)
 
@@ -323,7 +368,7 @@
 
 (setq gdritter/spacing-modes
       '(;c-mode
-        sh-mode
+        ;sh-mode
         scala-mode
         c++-mode
         asm-mode
