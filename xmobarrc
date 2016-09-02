@@ -1,0 +1,19 @@
+Config { border = BottomB
+       , borderColor = "black"
+       , bgColor = "black"
+       , fgColor = "white"
+       , position = TopW L 100
+       , lowerOnStart = True
+       , commands =
+            [ Run Cpu ["-L", "3", "-H", "50", "--normal", "green", "--high", "red"] 10
+            , Run Memory ["-t", "Mem: <usedratio>%"] 10
+            , Run Swap [] 10
+            , Run Date "%a %b %_d %l:%M" "date" 10
+            , Run StdinReader
+            , Run Com "/home/gdritter/bin/check-battery" [] "battery" 50
+	    , Run Com "/home/gdritter/bin/bat-color" [] "col" 50
+            ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ <fc=%col%>%cpu% | %memory% | %date% | %battery%</fc>"
+       }
