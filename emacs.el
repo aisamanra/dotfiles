@@ -119,6 +119,9 @@
   :ensure t
   :init (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
+(use-package glsl-mode
+  :ensure t)
+
 
 
 ;; tuareg-mode
