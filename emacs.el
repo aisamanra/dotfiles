@@ -3,7 +3,7 @@
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
-(setq-default c-basic-offset 4)
+(setq-default c-basic-offset 2)
 (menu-bar-mode 0)
 (setq column-number-mode t)
 (setq default-tab-width 4)
@@ -293,6 +293,26 @@
       (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
       (setq haskell-mode-hook '(turn-on-haskell-indentation))))
 
+;; an editor macro for creating obvious trivial lens impls
+(defun mk-lens ()
+ (interactive)
+ (let ((rstart (region-beginning))
+       (rend (region-end)))
+   (goto-char rstart)
+   (if (re-search-forward
+        "^@lens \\([A-Za-z0-9_]+\\) *\\([A-Za-z0-9_]+\\) *\\([A-Za-z0-9._]+\\)"
+        nil
+        t)
+       (let ((val (match-string 1))
+             (typ (match-string 2))
+             (fil (match-string 3)))
+         (goto-char (match-beginning 0))
+         (delete-region (match-beginning 0) (match-end 0))
+         (insert val "L :: Lens' " typ " " fil "\n")
+         (insert val "L = makeLens " val " (\\ t s -> s { " val " = t })\n")
+         (mk-lens)))))
+
+
 ;; (use-package ghc
 ;;   :ensure t
 ;;   :init
@@ -314,8 +334,6 @@
 
 (use-package idris-mode
   :ensure t)
-;(use-package helm-idris
-;  :ensure t)
 
 
 
@@ -350,7 +368,7 @@
 (use-package telml-mode
   :ensure t
   :init
-  (add-hook 'markdown-mode-hook 'visual-line-mode))
+  (add-hook 'telml-mode-hook 'visual-line-mode))
 (use-package yue-mode
   :ensure t)
 
@@ -367,9 +385,7 @@
     (princ "Fixing all spacing...")))
 
 (setq gdritter/spacing-modes
-      '(;c-mode
-        ;sh-mode
-        scala-mode
+      '(scala-mode
         c++-mode
         asm-mode
         haskell-mode
@@ -386,7 +402,7 @@
     (fix-spacing)))
 
 (defun gdritter/change-whitespace-mode-hook ()
-  (if (member major-mode '(c-mode c++-mode go-mode))
+  (if (member major-mode '(c-mode c++-mode go-mode org-mode))
       (progn (setq whitespace-style '(face))
              (global-whitespace-mode t))))
 
@@ -427,3 +443,4 @@
 (if (getenv "NARROW")
     (bzg-big-fringe-mode 1))
 (put 'narrow-to-region 'disabled nil)
+
