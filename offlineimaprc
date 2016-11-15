@@ -1,0 +1,31 @@
+[general]
+accounts = galois
+pythonfile = ~/.offlineimap.py
+maxsyncaccounts = 1
+
+[Account galois]
+localrepository = galois-local
+remoterepository = galois-remote
+status_backend = sqlite
+autorefresh = 0.5
+quick = 10
+
+[Repository galois-local]
+type = Maildir
+localfolders = ~/.mail
+
+[Repository galois-remote]
+type = Gmail
+remotehost = imap.gmail.com
+remoteuser = gdritter@galois.com
+remotepasseval = passwd('galois')
+realdelete = no
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[mbnames]
+enabled = yes
+filename = ~/.mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(accountname)s/%(foldername)s"
+sep = " "
+footer = "\n"
