@@ -6,8 +6,12 @@
 (setq-default c-basic-offset 2)
 (menu-bar-mode 0)
 (setq column-number-mode t)
-(setq default-tab-width 4)
-(setq indent-tabs-mode nil)
+(setq default-tab-width 2)
+(setq-default indent-tabs-mode nil)
+
+(setq c-default-style "linux")
+(c-set-offset 'substatement-open 0)
+(add-to-list 'auto-mode-alist '("\\.edl\\'" . c-mode))
 
 (setq scheme-program-name "guile")
 (setq vc-follow-symlinks t)
@@ -295,6 +299,14 @@
       (setq haskell-mode-hook 'turn-on-haskell-simple-indent)
       (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
       (setq haskell-mode-hook '(turn-on-haskell-indentation))))
+
+(use-package dante
+  :ensure t
+  :commands 'dante-mode
+  :init
+    (add-hook 'haskell-mode-hook 'dante-mode)
+    (add-hook 'haskell-mode-hook 'flycheck-mode))
+;    (setq dante-repl-command-line '("cabal" "new-repl")))
 
 ;; an editor macro for creating obvious trivial lens impls
 (defun mk-lens ()
