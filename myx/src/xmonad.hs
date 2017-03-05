@@ -16,6 +16,7 @@ import           XMonad ((|||), (<+>))
 import qualified XMonad as XM
 import qualified XMonad.Hooks.DynamicLog as Log
 import qualified XMonad.Hooks.ManageDocks as XM
+import qualified XMonad.Hooks.SetWMName as XM
 import qualified XMonad.Layout.NoBorders as XM
 import qualified XMonad.Layout.Tabbed as Tab
 import           XMonad.ManageHook ((-->), (=?))
@@ -58,6 +59,13 @@ keys (XM.XConfig {XM.modMask = mdMask}) = M.fromList
   , ((mdMask, XM.xK_u), XM.spawn "amixer -q sset Master 3%+")
   , ((mdMask, XM.xK_d), XM.spawn "amixer -q sset Master 3%-")
   , ((mdMask, XM.xK_m), XM.spawn "amixer -q sset Master 0%")
+  , ((mdMask, 0x1008ff13), XM.spawn "amixer -q set Master 3%+")
+  , ((mdMask, 0x1008ff12), XM.spawn "amixer set Master toggle")
+  , ((mdMask, 0x1008ff11), XM.spawn "amixer -q set Master 3%-")
+  , ((mdMask, 0x1008ff14), XM.spawn "mpc toggle")
+  , ((mdMask, 0x1008ff15), XM.spawn "mpc stop")
+  , ((mdMask, 0x1008ff16), XM.spawn "mpc prev")
+  , ((mdMask, 0x1008ff17), XM.spawn "mpc next")
   ]
 
 recompile :: IO ()
@@ -88,13 +96,17 @@ config xmproc ColorScheme { .. } = XMConfig conf
           { XM.modMask            = XM.mod4Mask
           , XM.terminal           = "urxvt -e tmux"
           , XM.keys               = keys <+> XM.keys def
+          , XM.handleEventHook    =
+              XM.docksEventHook <+> XM.handleEventHook def
+          , XM.startupHook        =
+              XM.setWMName "LG3D" <+> XM.docksStartupHook <+> XM.startupHook def
           , XM.layoutHook =
-              XM.avoidStruts (tabbed ||| tiled ||| XM.Mirror tiled)
-                ||| XM.noBorders (XM.smartBorders XM.Full)
-          , XM.manageHook = XM.composeAll
-              [ XM.className =? "Vkdraw" --> XM.doFloat
-              , XM.manageHook def
-              ]
+              XM.avoidStruts tiled |||
+              XM.avoidStruts (XM.Mirror tiled) |||
+              XM.noBorders (XM.smartBorders XM.Full) |||
+              XM.avoidStruts (XM.noBorders tabbed)
+          , XM.manageHook =
+              XM.manageDocks <+> XM.manageHook def
           , XM.normalBorderColor  = normalC
           , XM.focusedBorderColor = focusedC
           , XM.logHook = Log.dynamicLogWithPP $ Log.xmobarPP
@@ -103,7 +115,7 @@ config xmproc ColorScheme { .. } = XMConfig conf
               , Log.ppCurrent = Log.xmobarColor grayC "" . ("<" ++) . (++ ">")
               }
           }
-        tiled = XM.Tall 1 (3/100) (1/2)
+        tiled = XM.Tall 1 (3/100) (3/5)
         tabbed = Tab.tabbed Tab.shrinkText def
                    { Tab.activeColor         = focusedC
                    , Tab.inactiveColor       = normalC
