@@ -104,7 +104,7 @@ config xmproc ColorScheme { .. } = XMConfig conf
               XM.avoidStruts tiled |||
               XM.avoidStruts (XM.Mirror tiled) |||
               XM.noBorders (XM.smartBorders XM.Full) |||
-              XM.avoidStruts (XM.noBorders tabbed)
+              XM.avoidStruts tabbed
           , XM.manageHook =
               XM.manageDocks <+> XM.manageHook def
           , XM.normalBorderColor  = normalC
@@ -116,14 +116,13 @@ config xmproc ColorScheme { .. } = XMConfig conf
               }
           }
         tiled = XM.Tall 1 (3/100) (3/5)
-        tabbed = Tab.tabbed Tab.shrinkText def
+        tabbed = Tab.tabbedAlways Tab.shrinkText def
                    { Tab.activeColor         = focusedC
                    , Tab.inactiveColor       = normalC
                    , Tab.activeBorderColor   = blackC
                    , Tab.inactiveBorderColor = blackC
                    , Tab.activeTextColor     = whiteC
                    , Tab.inactiveTextColor   = whiteC
-                   , Tab.fontName            = "Inconsolata"
                    }
 
 main :: IO ()
