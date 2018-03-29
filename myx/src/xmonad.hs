@@ -139,7 +139,7 @@ main = do
     void (Sys.createProcess (Sys.proc "sh" ["/home/gdritter/.xm-init"]))
 
   -- Run an xmobar instance
-  xmproc <- Run.spawnPipe "xmobar /home/gdritter/.xmobarrc"
+  xmproc <- Run.spawnPipe "/usr/bin/xmobar /home/gdritter/.xmobarrc"
   -- Run a graphical-only runit instance.
   -- XXX: kill this when xmonad dies somehow!
   void (Run.spawnPipe "runsvdir /home/gdritter/.run/service")

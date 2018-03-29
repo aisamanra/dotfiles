@@ -222,6 +222,19 @@
 (use-package fountain-mode
   :ensure t)
 
+(defun gdritter/rst-csv-to-latex ()
+  (interactive)
+  (let ((here (point)))
+    (while (re-search-forward "^ *\"" nil t)
+      (replace-match ""))
+    (goto-char here)
+    (while (re-search-forward "\", *\"" nil t)
+      (replace-match " & "))
+    (goto-char here)
+    (while (re-search-forward "\" *$" nil t)
+      (replace-match " \\\\\\\\"))
+    (goto-char here)))
+
 ;; Pandoc can begin with YAML metadata, and sometimes a pandoc file
 ;; will indicate which format it should be using. I'm not going to
 ;; write a full YAML parser in elisp! But usually, parsing simple
@@ -501,6 +514,7 @@
 (if (getenv "NARROW")
     (bzg-big-fringe-mode 1))
 (put 'narrow-to-region 'disabled nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -508,7 +522,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (emojify all-the-icons-dired all-the-icons groovy-mode jenkins docker-tramp ponylang-mode company-mode racer meson-mode company-coq dante asn1-mode go-mode zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode php-mode pandoc-mode org-jira ndbl-mode markdown-mode magit lua-mode jira idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
+    (auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
