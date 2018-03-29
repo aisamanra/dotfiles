@@ -1,5 +1,7 @@
 ;; basic appearance bits
 
+(load "ProofGeneral/generic/proof-site")
+
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
@@ -54,6 +56,13 @@
 (use-package org
   :ensure t)
 
+(defun gdritter/add-meta-bindings ()
+  (let ((map outline-minor-mode-map))
+    (define-key map (kbd "M-<up>") 'outline-previous-visible-heading)
+    (define-key map (kbd "M-<down>") 'outline-next-visible-heading)))
+
+(add-hook 'outline-minor-mode-hook 'gdritter/add-meta-bindings)
+
 
 
 ;; web-mode
@@ -75,6 +84,8 @@
           (setq web-mode-code-indent-offset 2)
           (setq web-mode-attr-indent-offset 2)))
 
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . javascript-mode))
+
 
 
 ;; unicode stuff
@@ -82,6 +93,17 @@
   :ensure t
   :defer t
   :init (unicode-fonts-setup))
+
+;; display Github-like emoji if we're in a text-editing mode of some
+;; kind
+(defun gdritter/enable-emoji-hook ()
+  (if (member major-mode '(markdown-mode pandoc-mode text-mode telml-mode))
+      (emojify-mode)))
+
+(use-package emojify
+  :ensure t
+  :init (add-hook 'after-change-major-mode-hook
+                  'gdritter/enable-emoji-hook))
 
 
 
@@ -107,6 +129,9 @@
 (add-to-list 'auto-mode-alist '("\\.do\\'" . sh-mode))
 ;; for void linux template file highlighting
 (add-to-list 'auto-mode-alist '("\\template\\'" . sh-mode))
+
+(use-package meson-mode
+  :ensure t)
 
 
 (use-package vagrant
@@ -154,6 +179,22 @@
 
 (use-package rust-mode
   :ensure t)
+
+(use-package company
+  :ensure t)
+
+(use-package racer
+  :ensure t
+  :init
+  (progn
+    (add-hook 'rust-mode-hook #'racer-mode)
+    (add-hook 'racer-mode-hook #'eldoc-mode)
+    (add-hook 'racer-mode-hook #'company-mode)
+
+    (require 'rust-mode)
+    (define-key rust-mode-map
+      (kbd "TAB") #'company-indent-or-complete-common)
+    (setq company-tooltip-align-annotations t)))
 
 
 
@@ -298,7 +339,9 @@
     (progn
       (setq haskell-mode-hook 'turn-on-haskell-simple-indent)
       (add-to-list 'Info-default-directory-list "/usr/lib/emacs/haskell-mode/")
-      (setq haskell-mode-hook '(turn-on-haskell-indentation))))
+      (setq haskell-mode-hook '(turn-on-haskell-indentation))
+      (add-hook 'haskell-mode-hook 'outline-minor-mode)
+      (setq outline-regexp "-- \\*+")))
 
 (use-package dante
   :ensure t
@@ -354,15 +397,15 @@
 
 ;; python stuff
 
-(use-package elpy
-  :ensure t
-  :init
-    (elpy-enable))
+;; (use-package elpy
+;;   :ensure t
+;;   :init
+;;     (elpy-enable))
 
-(use-package py-autopep8
-  :ensure t
-  :init
-    (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+;; (use-package py-autopep8
+;;   :ensure t)
+;; ;  :init
+;; ;    (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
 
 
@@ -441,7 +484,7 @@
     (progn
       (set-fringe-mode
        (/ (- (frame-pixel-width)
-             (* 300 (frame-char-width)))
+             (* 280 (frame-char-width)))
           2))
       (mapcar (lambda (fb) (set-fringe-bitmap-face fb 'org-hide))
               fringe-bitmaps))))
@@ -458,4 +501,18 @@
 (if (getenv "NARROW")
     (bzg-big-fringe-mode 1))
 (put 'narrow-to-region 'disabled nil)
-
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (emojify all-the-icons-dired all-the-icons groovy-mode jenkins docker-tramp ponylang-mode company-mode racer meson-mode company-coq dante asn1-mode go-mode zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode php-mode pandoc-mode org-jira ndbl-mode markdown-mode magit lua-mode jira idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 140 :width normal))))
+ '(tex-verbatim ((t (:family "consolas")))))
