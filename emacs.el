@@ -1,7 +1,5 @@
 ;; basic appearance bits
 
-(load "ProofGeneral/generic/proof-site")
-
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
