@@ -55,6 +55,7 @@ purpScheme = ColorScheme
 keys :: XM.XConfig XM.Layout -> M.Map (XM.ButtonMask, XM.KeySym) (XM.X ())
 keys (XM.XConfig {XM.modMask = mdMask}) = M.fromList
   [ ((mdMask, XM.xK_p), XM.spawn "dmenu_run")
+  , ((mdMask, XM.xK_o), XM.spawn "dmesktop")
   , ((mdMask, XM.xK_period), XM.spawn "ibus engine xkb:us::eng")
   , ((mdMask, XM.xK_u), XM.spawn "amixer -q sset Master 3%+")
   , ((mdMask, XM.xK_d), XM.spawn "amixer -q sset Master 3%-")
@@ -139,7 +140,7 @@ main = do
     void (Sys.createProcess (Sys.proc "sh" ["/home/gdritter/.xm-init"]))
 
   -- Run an xmobar instance
-  xmproc <- Run.spawnPipe "xmobar /home/gdritter/.xmobarrc"
+  xmproc <- Run.spawnPipe "/home/gdritter/.cabal/bin/xmobar /home/gdritter/.xmobarrc"
   -- Run a graphical-only runit instance.
   -- XXX: kill this when xmonad dies somehow!
   void (Run.spawnPipe "runsvdir /home/gdritter/.run/service")

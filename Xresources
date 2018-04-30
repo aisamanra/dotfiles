@@ -7,7 +7,7 @@ URxvt.perl-exp.common: matcher
 URxvt.transparent: true
 URxvt.shading: 10
 URxvt.scrollBar: false
-URxvt*font: xft:Inconsolata:style=Medium:size=14, xft:Symbola:style=Regular:size=14
+URxvt*font: xft:Fira Mono:style=Medium:size=14, xft:Symbola:style=Regular:size=14
 URxvt*.foreground: white
 URxvt*.background: black
 URxvt.print-pipe: "cat >/dev/null"
@@ -20,7 +20,7 @@ Emacs.toolBar: -1
 Emacs.verticalScrollBars: off
 
 ! Xft options
-Xft.dpi:       100
+Xft.dpi:       162
 Xft.autohint:  0
 Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintfull

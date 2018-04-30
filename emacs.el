@@ -1,7 +1,5 @@
 ;; basic appearance bits
 
-(load "ProofGeneral/generic/proof-site")
-
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
@@ -501,6 +499,7 @@
 (if (getenv "NARROW")
     (bzg-big-fringe-mode 1))
 (put 'narrow-to-region 'disabled nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -10,10 +10,9 @@ Config { border = BottomB
             , Run Swap [] 10
             , Run Date "%a %b %_d %l:%M" "date" 10
             , Run StdinReader
-            , Run Com "/home/gdritter/bin/check-battery" [] "battery" 50
-	    , Run Com "/home/gdritter/bin/bat-color" [] "col" 50
             ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=%col%>%cpu% | %memory% | %date% | %battery%</fc>"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %date%"
+       , font = "xft:Fira Mono:bold:size=14"
        }
