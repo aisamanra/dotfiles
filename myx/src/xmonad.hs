@@ -141,6 +141,7 @@ main = do
 
   -- Run an xmobar instance
   xmproc <- Run.spawnPipe "/home/gdritter/.cabal/bin/xmobar /home/gdritter/.xmobarrc"
+  xmproc <- Run.spawnPipe "/usr/bin/xmobar /home/gdritter/.xmobarrc"
   -- Run a graphical-only runit instance.
   -- XXX: kill this when xmonad dies somehow!
   void (Run.spawnPipe "runsvdir /home/gdritter/.run/service")
