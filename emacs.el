@@ -295,7 +295,10 @@
   :defines (helm-apropos-fuzzy-match
             helm-completion-mode-string
             helm-ff-file-name-history-use-recentf)
-  :commands (helm-mode))
+  :commands (helm-mode)
+  :init (progn
+          (global-set-key (kbd "C-x C-f") #'helm-find-files)
+          (global-set-key (kbd "C-x C-b") #'helm-mini)))
 
 
 
