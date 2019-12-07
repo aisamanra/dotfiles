@@ -86,6 +86,10 @@
 
 
 
+;;
+(use-package persistent-soft
+  :ensure t)
+
 ;; unicode stuff
 (use-package unicode-fonts
   :ensure t
@@ -193,6 +197,14 @@
     (define-key rust-mode-map
       (kbd "TAB") #'company-indent-or-complete-common)
     (setq company-tooltip-align-annotations t)))
+
+(use-package cargo
+  :ensure t
+  :init (add-hook 'rust-mode-hook #'cargo-minor-mode))
+
+(use-package flycheck-rust
+  :ensure t
+  :init (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 
 
@@ -305,14 +317,13 @@
 ;; color things!
 
 (when (display-graphic-p)
-  (use-package color-theme
+  (use-package color-theme-modern
     :ensure t
     :init
       (progn
         (use-package zenburn-theme :ensure t)
         (use-package solarized-theme :ensure t)
         (use-package color-theme-sanityinc-tomorrow :ensure t)
-        (color-theme-initialize)
         (let ((theme (getenv "THEME")))
           (cond
            ((string= theme "solarized-dark")
@@ -363,7 +374,6 @@
   :init
     (add-hook 'haskell-mode-hook 'dante-mode)
     (add-hook 'haskell-mode-hook 'flycheck-mode))
-;    (setq dante-repl-command-line '("cabal" "new-repl")))
 
 ;; an editor macro for creating obvious trivial lens impls
 (defun mk-lens ()
@@ -406,6 +416,11 @@
 
 (use-package idris-mode
   :ensure t)
+
+(use-package pony-mode
+  :ensure t
+  :init
+  (add-hook 'ponylang-mode-hook (lambda () (set-variable 'tab-width 2))))
 
 
 
