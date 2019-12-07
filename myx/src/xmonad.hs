@@ -19,7 +19,6 @@ import qualified XMonad.Hooks.ManageDocks as XM
 import qualified XMonad.Hooks.SetWMName as XM
 import qualified XMonad.Layout.NoBorders as XM
 import qualified XMonad.Layout.Tabbed as Tab
-import           XMonad.ManageHook ((-->), (=?))
 import qualified XMonad.Util.Run as Run
 
 -- | A 'ColorScheme' represents a handful of salient colors used in
@@ -37,16 +36,6 @@ blueScheme :: ColorScheme
 blueScheme = ColorScheme
   { normalC  = "#336699"
   , focusedC = "#9ebedf"
-  , blackC   = "#ffffff"
-  , grayC    = "#999999"
-  , whiteC   = "#000000"
-  }
-
--- | Here's a reasonable default color scheme with some blues!
-purpScheme :: ColorScheme
-purpScheme = ColorScheme
-  { normalC  = "#993366"
-  , focusedC = "#bf4080"
   , blackC   = "#ffffff"
   , grayC    = "#999999"
   , whiteC   = "#000000"
@@ -110,10 +99,8 @@ config xmproc ColorScheme { .. } = XMConfig conf
               XM.manageDocks <+> XM.manageHook def
           , XM.normalBorderColor  = normalC
           , XM.focusedBorderColor = focusedC
-          , XM.logHook = Log.dynamicLogWithPP $ Log.xmobarPP
+          , XM.logHook = Log.dynamicLogWithPP $ def
               { Log.ppOutput  = Sys.hPutStrLn xmproc
-              , Log.ppTitle   = Log.xmobarColor grayC "" . Log.shorten 50
-              , Log.ppCurrent = Log.xmobarColor grayC "" . ("<" ++) . (++ ">")
               }
           }
         tiled = XM.Tall 1 (3/100) (3/5)
@@ -140,11 +127,7 @@ main = do
     void (Sys.createProcess (Sys.proc "sh" ["/home/gdritter/.xm-init"]))
 
   -- Run an xmobar instance
-  xmproc <- Run.spawnPipe "/home/gdritter/.cabal/bin/xmobar /home/gdritter/.xmobarrc"
-  xmproc <- Run.spawnPipe "/usr/bin/xmobar /home/gdritter/.xmobarrc"
-  -- Run a graphical-only runit instance.
-  -- XXX: kill this when xmonad dies somehow!
-  void (Run.spawnPipe "runsvdir /home/gdritter/.run/service")
+  xmproc <- Run.spawnPipe "/home/gdritter/.cargo/bin/knurling"
 
   -- Finally, build the config and run xmonad!
   case config xmproc blueScheme of
