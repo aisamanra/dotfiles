@@ -3,13 +3,12 @@
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
-(setq-default c-basic-offset 2)
 (menu-bar-mode 0)
 (setq column-number-mode t)
-(setq default-tab-width 2)
+(setq default-tab-width 4)
 (setq-default indent-tabs-mode nil)
 
-(setq c-default-style "linux")
+(setq c-default-style "stroustrup")
 (c-set-offset 'substatement-open 0)
 (add-to-list 'auto-mode-alist '("\\.edl\\'" . c-mode))
 
@@ -104,6 +103,28 @@
 
 
 
+;; some C/C__ setup
+
+(defun gdritter/line-width-hook()
+  (if (member major-mode '(c-mode c++-mode))
+      (set-fill-column 120)))
+
+(add-hook 'after-change-major-mode-hook 'gdritter/line-width-hook)
+
+(use-package dumb-jump
+  :bind (("M-g j" . dump-jump-go)
+         ("M-g i" . dump-jump-go-prompt))
+  :config (setq dump-jump-selector 'helm)
+  :ensure t)
+
+(defconst gdritter/cc-style
+  '("cc-mode" (c-offsets-alist . ((innamespace . [0])))))
+
+(c-add-style "gdritter/cc-style" gdritter/cc-style)
+(setq c-default-style "gdritter/cc-style" c-basic-offset 4)
+
+
+
 ;; misc. package setup
 
 (use-package undo-tree
@@ -133,6 +154,10 @@
 (use-package vagrant
   :ensure t)
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rbi\\'" . ruby-mode))
+
+(setq ruby-deep-indent-param nil)
+(setq ruby-insert-encoding-magic-comment nil)
 
 (use-package lua-mode
   :ensure t)
@@ -536,6 +561,16 @@
     (bzg-big-fringe-mode 1))
 (put 'narrow-to-region 'disabled nil)
 
+(use-package lsp-mode
+  :ensure t
+  :config
+  (add-hook 'c++-mode-hook #'lsp)
+  (setq lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error")))
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -543,11 +578,15 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (bazel-mode ponylang-mode rjsx-mode fennel-mode go-mode auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
+    (lsp-mode dumb-jump bazel-mode ponylang-mode rjsx-mode fennel-mode go-mode auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 140 :width normal))))
+ '(lsp-ui-doc-background ((t (:background "black"))))
+ '(lsp-ui-sideline-current-symbol ((t (:foreground "white" :weight ultra-bold :height 0.99))))
  '(tex-verbatim ((t (:family "consolas")))))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
