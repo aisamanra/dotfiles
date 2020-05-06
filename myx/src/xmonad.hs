@@ -84,7 +84,7 @@ config :: Sys.Handle -> ColorScheme -> XMConfig
 config xmproc ColorScheme { .. } = XMConfig conf
   where conf = def
           { XM.modMask            = XM.mod4Mask
-          , XM.terminal           = "urxvt -e tmux"
+          , XM.terminal           = "alacritty -e tmux"
           , XM.keys               = keys <+> XM.keys def
           , XM.handleEventHook    =
               XM.docksEventHook <+> XM.handleEventHook def
