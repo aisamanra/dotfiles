@@ -83,19 +83,13 @@
           (setq web-mode-code-indent-offset 2)
           (setq web-mode-attr-indent-offset 2)))
 
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . javascript-mode))
+(use-package rjsx-mode :ensure t)
 
 
 
 ;;
 (use-package persistent-soft
   :ensure t)
-
-;; unicode stuff
-(use-package unicode-fonts
-  :ensure t
-  :defer t
-  :init (unicode-fonts-setup))
 
 ;; display Github-like emoji if we're in a text-editing mode of some
 ;; kind
@@ -136,12 +130,14 @@
 (use-package meson-mode
   :ensure t)
 
-
 (use-package vagrant
   :ensure t)
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\\'" . ruby-mode))
 
 (use-package lua-mode
+  :ensure t)
+
+(use-package fennel-mode
   :ensure t)
 
 (use-package scala-mode
@@ -152,6 +148,12 @@
   :init (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
 (use-package glsl-mode
+  :ensure t)
+
+(use-package ponylang-mode
+  :ensure t)
+
+(use-package bazel-mode
   :ensure t)
 
 
@@ -541,7 +543,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
+    (bazel-mode ponylang-mode rjsx-mode fennel-mode go-mode auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
