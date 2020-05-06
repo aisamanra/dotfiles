@@ -52,7 +52,8 @@
 ;; org-mode
 
 (use-package org
-  :ensure t)
+  :ensure t
+  :init (add-hook 'org-mode-hook 'visual-line-mode))
 
 (defun gdritter/add-meta-bindings ()
   (let ((map outline-minor-mode-map))
@@ -224,6 +225,8 @@
       (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
       (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
       (add-hook 'markdown-mode-hook 'visual-line-mode)))
+
+(add-hook 'rst-mode-hook 'visual-line-mode)
 
 (use-package pandoc-mode
   :ensure t
@@ -513,7 +516,7 @@
     (progn
       (set-fringe-mode
        (/ (- (frame-pixel-width)
-             (* 280 (frame-char-width)))
+             (* 240 (frame-char-width)))
           2))
       (mapcar (lambda (fb) (set-fringe-bitmap-face fb 'org-hide))
               fringe-bitmaps))))
