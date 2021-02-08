@@ -35,7 +35,7 @@
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
   '("gelpa" . "http://gelpa.gdritter.com/") t)
 
@@ -83,6 +83,8 @@
           (setq web-mode-attr-indent-offset 2)))
 
 (use-package rjsx-mode :ensure t)
+
+(setq js2-basic-offset 2)
 
 
 
@@ -160,7 +162,8 @@
 (setq ruby-insert-encoding-magic-comment nil)
 
 (use-package lua-mode
-  :ensure t)
+  :ensure t
+  :init (setq lua-indent-level 2))
 
 (use-package fennel-mode
   :ensure t)
@@ -531,6 +534,8 @@
 
 
 ;; text-fringe-mode (for editing single prose files)
+(use-package olivetti
+  :ensure t)
 
 (define-minor-mode bzg-big-fringe-mode
   "Minor mode to center text using large fringe"
@@ -577,8 +582,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (lsp-mode dumb-jump bazel-mode ponylang-mode rjsx-mode fennel-mode go-mode auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode))))
+   '(typescript-mode olivetti olivetti-mode quack racket-mode flymake-racket lsp-mode dumb-jump bazel-mode ponylang-mode rjsx-mode fennel-mode go-mode auctex dante zenburn-theme yue-mode yaml-mode web-mode vagrant use-package unicode-fonts twittering-mode tuareg toml-mode telml-mode suppl-mode solarized-theme scala-mode rust-mode py-autopep8 pico-ml-mode pandoc-mode ndbl-mode markdown-mode magit lua-mode io-mode idris-mode helm glsl-mode gidl-mode ghc fsharp-mode fountain-mode evil erlang ensime elpy electric-boogaloo-mode dockerfile-mode dash-functional cryptol-mode color-theme-sanityinc-tomorrow color-theme adnot-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
