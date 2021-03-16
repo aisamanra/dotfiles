@@ -171,10 +171,6 @@
 (use-package scala-mode
   :ensure t)
 
-(use-package ensime
-  :ensure t
-  :init (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
-
 (use-package glsl-mode
   :ensure t)
 
