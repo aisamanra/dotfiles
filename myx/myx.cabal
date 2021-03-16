@@ -25,4 +25,5 @@ executable xmonad
                      , directory
                      , xmonad-contrib
                      , data-default
+                     , X11
   default-language:    Haskell2010
