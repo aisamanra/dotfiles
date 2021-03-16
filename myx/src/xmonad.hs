@@ -11,6 +11,7 @@ import qualified System.Environment as Sys
 import qualified System.Exit as Sys
 import qualified System.IO as Sys
 import qualified System.Process as Sys
+import qualified Graphics.X11.ExtraTypes.XF86 as X11
 
 import           XMonad ((|||), (<+>))
 import qualified XMonad as XM
@@ -19,6 +20,7 @@ import qualified XMonad.Hooks.ManageDocks as XM
 import qualified XMonad.Hooks.SetWMName as XM
 import qualified XMonad.Layout.NoBorders as XM
 import qualified XMonad.Layout.Tabbed as Tab
+import qualified XMonad.Util.Paste as Paste
 import qualified XMonad.Util.Run as Run
 
 -- | A 'ColorScheme' represents a handful of salient colors used in
@@ -49,6 +51,8 @@ keys (XM.XConfig {XM.modMask = mdMask}) = M.fromList
   , ((mdMask, XM.xK_u), XM.spawn "amixer -q sset Master 3%+")
   , ((mdMask, XM.xK_d), XM.spawn "amixer -q sset Master 3%-")
   , ((mdMask, XM.xK_m), XM.spawn "amixer -q sset Master 0%")
+  , ((mdMask, XM.xK_c), xCopy)
+  , ((mdMask, XM.xK_v), Paste.pasteSelection)
   , ((mdMask, 0x1008ff13), XM.spawn "amixer -q set Master 3%+")
   , ((mdMask, 0x1008ff12), XM.spawn "amixer set Master toggle")
   , ((mdMask, 0x1008ff11), XM.spawn "amixer -q set Master 3%-")
@@ -57,6 +61,14 @@ keys (XM.XConfig {XM.modMask = mdMask}) = M.fromList
   , ((mdMask, 0x1008ff16), XM.spawn "mpc prev")
   , ((mdMask, 0x1008ff17), XM.spawn "mpc next")
   ]
+
+xCopy :: XM.X ()
+xCopy = XM.withFocused $ \w -> do
+  winName <- XM.runQuery XM.className w
+  if winName == "Alacritty"
+    then (Paste.sendKey XM.noModMask X11.xF86XK_Copy)
+    else (Paste.sendKey XM.controlMask XM.xK_c)
+
 
 recompile :: IO ()
 recompile = do
