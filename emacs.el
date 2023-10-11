@@ -21,6 +21,14 @@
       (scroll-bar-mode 0)
       (tool-bar-mode 0)))
 
+(setq require-final-newline t)
+
+;; move backups to a specific directory)
+(make-directory "~/.emacs-autosave" t)
+(make-directory "~/.emacs-backups" t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs-autosave/" t)))
+(setq backup-directory-alist '(("." . "~/.emacs-backups")))
+
 
 
 ;; Any machine-specific setup can go in an external
@@ -87,7 +95,8 @@
 (setq js2-basic-offset 2)
 
 (use-package typescript-mode
-  :ensure t)
+  :ensure t
+  :init (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode)))
 
 (setq-default typescript-indent-level 2)
 
