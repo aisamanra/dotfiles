@@ -19,3 +19,10 @@ alias hex2raw="tr -d '\\\x' | xxd -r -p"
 export EDITOR="emacs -nw"
 export BASHFILESIZE=50000
 export HISTSIZE=5000
+
+# allow different machines to customize their tmux colors
+if [ -n "$TMUX" ]; then
+  if [ -e "$HOME/.tmux-color" ]; then
+    tmux set-option -a status-style bg="$(cat ~/.tmux-color)"
+  fi
+fi
