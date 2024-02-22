@@ -22,7 +22,9 @@ export HISTSIZE=5000
 
 # allow different machines to customize their tmux colors
 if [ -n "$TMUX" ]; then
-  if [ -e "$HOME/.tmux-color" ]; then
-    tmux set-option -a status-style bg="$(cat ~/.tmux-color)"
-  fi
+    if [ -e "$HOME/.tmux-color" ]; then
+        tmux set-option -a status-style bg="$(cat ~/.tmux-color)"
+    else
+        tmux set-option -a status-style bg=red
+    fi
 fi
